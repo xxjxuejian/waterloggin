@@ -1,3 +1,4 @@
 npm run lint:lint-staged
 npm run lint:prettier
 npm run lint:stylelint
+echo "aa"
