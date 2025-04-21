@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import HelloWorld from "./components/HelloWorld.vue";
-
-const a = 10;
 </script>
 
 <template>
@@ -35,6 +33,5 @@ const a = 10;
   position: relative;
   width: 100%;
   height: 100%;
-  background-colors: #f21;
 }
 </style>
