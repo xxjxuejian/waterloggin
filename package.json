@@ -11,7 +11,13 @@
     "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,css,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint  \"**/*.{css,scss,vue,html}\" --fix",
     "lint:lint-staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   },
   "lint-staged": {
     "*.{js,ts}": [
@@ -43,6 +49,8 @@
     "@eslint/js": "^9.25.0",
     "@vitejs/plugin-vue": "^5.2.2",
     "@vue/tsconfig": "^0.7.0",
+    "commitizen": "^4.3.1",
+    "cz-git": "^1.11.1",
     "eslint": "^9.25.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
