@@ -2,7 +2,6 @@
 import HelloWorld from "./components/HelloWorld.vue";
 
 const a = 10;
-const number = 10;
 </script>
 
 <template>
