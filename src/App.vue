@@ -2,7 +2,7 @@
 import HelloWorld from "./components/HelloWorld.vue";
 
 // 箭头函数要中始终添加括号
-const fn = (a) => {
+const fn = a => {
   return a + 10;
 };
 fn();
@@ -36,9 +36,10 @@ fn();
 
 /* 测试stylelint */
 .container {
-  position: relative;
   width: 100%;
   height: 100%;
+  position: relative;
+
   colors: #f21;
 }
 </style>
