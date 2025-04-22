@@ -19,6 +19,8 @@ declare module 'vue' {
     IEpUpload: typeof import('~icons/ep/upload')['default']
     IEpWarningFilled: typeof import('~icons/ep/warning-filled')['default']
     IEpWarnTriangleFilled: typeof import('~icons/ep/warn-triangle-filled')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./../components/SvgIcon/index.vue')['default']
   }
 }

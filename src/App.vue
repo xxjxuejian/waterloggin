@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import HelloWorld from "./components/HelloWorld.vue";
+
+// import { useTestStoreHook } from "@/store/modules/testStore";
+// const testStore = useTestStoreHook();
+// console.log(testStore.count);
 </script>
 
 <template>
