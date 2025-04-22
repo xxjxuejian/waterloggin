@@ -1,9 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="wh-full app-login bg-red-1">
-    <div>app-login</div>
-  </div>
+  <div>layout</div>
 </template>
 
 <style lang="scss" scoped></style>
