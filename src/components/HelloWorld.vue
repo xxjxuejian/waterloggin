@@ -31,10 +31,17 @@ const count = ref(0);
     .
   </p>
   <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
+
+  <div class="box" />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .read-the-docs {
   color: #888;
+}
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: $bg-color;
 }
 </style>

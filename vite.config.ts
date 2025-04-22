@@ -11,6 +11,9 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 // import Icons from "unplugin-icons/vite";
 // import IconsResolver from "unplugin-icons/resolver";
 
+//svg 图标导入
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+
 const pathSrc = path.resolve(__dirname, "src");
 
 // https://vite.dev/config/
@@ -25,6 +28,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: "modern-compiler",
+        // 在 每个 .scss 文件或者组件的 <style lang="scss">  编译前，自动插入这一行代码。
         additionalData: `@use "@/styles/variables.scss" as *;`,
       },
     },
@@ -42,6 +46,10 @@ export default defineConfig({
         ElementPlusResolver({ importStyle: "sass" }),
       ],
 
+      /* 
+      配置了自动导入，比如使用了ref()函数不用在手动导入，但是eslint会检测到不符合规范，所以需要生成生成 eslint 规则
+      然后在eslint.config.js中导入eslintrc-auto-import.json
+      */
       eslintrc: {
         enabled: true, // 是否自动生成 eslint 规则，建议生成之后设置 false
         filepath: "./.eslintrc-auto-import.json", // 指定自动导入函数 eslint 规则的文件
@@ -72,6 +80,15 @@ export default defineConfig({
       //  dts: false,
       dts: "src/types/components.d.ts", // 指定自动导入组件TS类型声明文件路径
     }),
+
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(pathSrc, "assets/icons")],
+      // 指定symbolId格式
+      symbolId: "icon-[dir]-[name]",
+    }),
+
+    // 自动注册图标组件
     // Icons({
     //   autoInstall: true,
     // }),

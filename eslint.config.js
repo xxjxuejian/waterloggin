@@ -11,6 +11,10 @@ import parserTypeScript from "@typescript-eslint/parser"; // TypeScript 解析�
 import configPrettier from "eslint-config-prettier"; // 禁用与 Prettier 冲突的规则
 import pluginPrettier from "eslint-plugin-prettier"; // 运行 Prettier 规则
 
+// 解析自动导入配置
+import fs from "fs";
+const autoImportConfig = JSON.parse(fs.readFileSync(".eslintrc-auto-import.json", "utf-8"));
+
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   // 指定检查文件和忽略文件
@@ -24,6 +28,8 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
+        // 自动导入规则
+        ...autoImportConfig.globals,
         ...{
           PageQuery: "readonly",
           PageResult: "readonly",
