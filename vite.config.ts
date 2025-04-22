@@ -7,6 +7,8 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
+import UnoCSS from "unocss/vite";
+
 // 图标icon自动导入
 // import Icons from "unplugin-icons/vite";
 // import IconsResolver from "unplugin-icons/resolver";
@@ -35,6 +37,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+
+    UnoCSS(),
+
     // 用来自动导入函数的
     AutoImport({
       // 导入 Vue 函数，如：ref, reactive, toRef 等
