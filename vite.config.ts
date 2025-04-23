@@ -71,14 +71,14 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         然后在eslint.config.js中导入eslintrc-auto-import.json
         */
         eslintrc: {
-          enabled: true, // 是否自动生成 eslint 规则，建议生成之后设置 false
+          enabled: false, // 是否自动生成 eslint 规则，建议生成之后设置 false
           filepath: "./.eslintrc-auto-import.json", // 指定自动导入函数 eslint 规则的文件
           globalsPropValue: true,
         },
         vueTemplate: true, //允许在 .vue 模板中使用自动导入的函数
         // 导入函数TS类型声明文件路径
-        //  dts: false,
-        dts: "src/types/auto-imports.d.ts", // 指定自动导入函数TS类型声明文件路径
+        dts: false,
+        // dts: "src/types/auto-imports.d.ts", // 指定自动导入函数TS类型声明文件路径
       }),
 
       // 自动注册并导入组件
@@ -97,7 +97,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         // 指定自定义组件位置(默认:src/components)
         dirs: ["src/components", "src/**/components"],
         // 导入组件类型声明文件路径 (false:关闭自动生成)
-        //  dts: false,
+        // dts: false,
         dts: "src/types/components.d.ts", // 指定自动导入组件TS类型声明文件路径
       }),
 
