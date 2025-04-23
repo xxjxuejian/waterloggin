@@ -1,3 +1,36 @@
+import request from "@/utils/request";
+
+const AuthAPI = {
+  /* 
+  登录
+  */
+  login: (data: LoginFormData) => {
+    return request({
+      url: "/login",
+      method: "POST",
+      data,
+    });
+  },
+
+  /** 获取用户信息 */
+  getUserInfo: () => {
+    return request({
+      url: "/getInfo",
+      method: "get",
+    });
+  },
+
+  /** 退出登录 */
+  logout: () => {
+    return request({
+      url: "/logout",
+      method: "get",
+    });
+  },
+};
+
+export default AuthAPI;
+
 /** 登录表单数据 */
 export interface LoginFormData {
   /** 用户名 */

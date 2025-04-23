@@ -2,13 +2,16 @@
 import type { FormInstance } from "element-plus";
 import type { LoginFormData } from "@/api/auth.api.ts";
 
+import { useUserStoreHook } from "@/store/modules/user.store.ts";
+
+const userStore = useUserStoreHook();
 // 查询表单，叫做queryParams , reactive
 
 // 登录表单，提交表单，叫做loginForm/formData/   reactive
 const loginFormRef = ref<FormInstance>();
 const loginForm = ref<LoginFormData>({
-  username: "",
-  password: "",
+  username: "admin",
+  password: "zkpy2024",
   rememberMe: false,
 });
 
@@ -40,8 +43,11 @@ const handleLoginSubmit = async () => {
     loading.value = true;
 
     // 执行登录操作
+    await userStore.login(loginForm.value);
 
+    ElMessage.success("登录成功");
     // 获取用户信息
+    await userStore.getUserInfo();
 
     // 跳转 到之前的地址
     console.log("login", loginForm.value);

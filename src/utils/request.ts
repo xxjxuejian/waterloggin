@@ -1,5 +1,6 @@
 import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from "axios";
 import qs from "qs";
+import { getToken, isTokenExpired } from "@/utils/auth";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -14,13 +15,18 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // 请求拦截器中 判断是否存在token,并添加到请求头 Authorization 中
-    // 逻辑代码,获取token
-    const token = "token";
+    // 逻辑代码,获取token，检查是否过期
+    const token = getToken();
+    const isExpire = isTokenExpired();
+
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      if (!isExpire) {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        console.log("token过期，跳转到登录页面");
+      }
     }
 
-    // 检查过期 ?
     return config;
   },
   (error) => {
@@ -44,11 +50,14 @@ instance.interceptors.response.use(
     // 后端返回的code 状态码
     if (code === 200) {
       return response.data;
+    } else if (code === 401) {
+      ElMessage.warning("登录过期，请重新登录");
+      // 登出，回到登录页面
+    } else {
+      // 业务失败（后端返回 code 非 200）
+      ElMessage.error(msg || "请求失败");
+      return Promise.reject(new Error(msg || "Error")); // 手动抛出异常
     }
-
-    // 业务失败（后端返回 code 非 200）
-    ElMessage.error(msg || "请求失败");
-    return Promise.reject(new Error(msg || "Error")); // 手动抛出异常
   },
 
   // HTTP 层面错误处理（超时、401、500 等），  超过200状态码的会触发这个函数，
@@ -63,3 +72,5 @@ instance.interceptors.response.use(
     return Promise.reject(err.message);
   }
 );
+
+export default instance;
