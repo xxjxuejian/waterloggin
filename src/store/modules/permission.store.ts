@@ -30,7 +30,7 @@ export const usePermissionStore = defineStore("permission", () => {
           isRoutesLoaded.value = true;
           adminEntryRoute.value = dynamicRoutes[0]?.children[0]?.path;
           console.log("adminEntryRoute", adminEntryRoute.value);
-          // console.log("dynamicRoutes", dynamicRoutes);
+          console.log("dynamicRoutes", dynamicRoutes);
           routes.value = [...constantRoutes, ...dynamicRoutes];
           resolve(dynamicRoutes);
         })

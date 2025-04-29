@@ -1,2 +1,12 @@
 // src/styles/variables.scss
 $bg-color: #d00909;
+
+$sidebar-width: 210px; // 侧边栏展开宽度
+$sidebar-width-collapsed: 54px; // 侧边栏收缩宽度
+$navbar-height: 70px; // 导航栏高度
+$tags-view-height: 34px; // TagsView 高度
+
+$sidebar-bg-color: #001529; // 侧边栏背景色
+$sidebar-text-color: #bfcbd9; // 侧边栏文本颜色
+$sidebar-text-active-color: #fff; // 侧边栏激活时文本颜色
+$sidebar-hover-bg-color: #1890ff; // 侧边栏hover时背景颜色

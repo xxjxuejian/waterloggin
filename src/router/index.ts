@@ -2,6 +2,7 @@ import type { App } from "vue";
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 
 // 静态路由
+// hidden: true 表示该路由不会显示在后台系统的侧边栏中(默认是显示的)
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/login",
@@ -24,7 +25,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     path: "/district-monitoring",
     name: "DistrictMonitoring",
     component: () => import("@/views/district-monitoring/index.vue"),
-    meta: { title: "大屏页", icon: "screen", affix: true },
+    meta: { hidden: true, title: "大屏页", icon: "screen", affix: true },
   },
 
   {

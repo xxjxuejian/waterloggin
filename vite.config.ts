@@ -77,8 +77,8 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         },
         vueTemplate: true, //允许在 .vue 模板中使用自动导入的函数
         // 导入函数TS类型声明文件路径
-        dts: false,
-        // dts: "src/types/auto-imports.d.ts", // 指定自动导入函数TS类型声明文件路径
+        // dts: false,
+        dts: "src/types/auto-imports.d.ts", // 指定自动导入函数TS类型声明文件路径
       }),
 
       // 自动注册并导入组件

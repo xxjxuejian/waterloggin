@@ -1,5 +1,10 @@
 <script setup>
+import Sidebar from "./components/Sidebar/index.vue";
 import router from "@/router";
+
+import { useAppStoreHook } from "@/store/modules/app.store.ts";
+
+const appStore = useAppStoreHook();
 
 const goHome = () => {
   router.push("/");
@@ -8,12 +13,18 @@ const goHome = () => {
 
 <template>
   <div class="layout">
-    <div class="sidebar">侧边栏</div>
+    <Sidebar />
 
     <div class="main-content">
       <div class="navbar">
+        <el-button type="primary" @click="appStore.toggleSidebar">
+          {{ appStore.isSidebarCollapse ? "展开" : "收起" }}
+        </el-button>
         导航栏
         <el-button type="primary" @click="goHome">首页大屏</el-button>
+        <el-button type="primary" @click="appStore.toggleLanguage">
+          切换为{{ appStore.language === "zh-cn" ? "英文" : "中文" }}
+        </el-button>
       </div>
       <div class="tagsview">标签栏</div>
       <div class="app-main">
@@ -28,13 +39,7 @@ const goHome = () => {
 .layout {
   display: flex;
   width: 100%;
-  height: 100vh;
-
-  .sidebar {
-    width: 200px;
-    height: 100%;
-    background-color: #4b7de8;
-  }
+  height: 100%;
 
   .main-content {
     display: flex;

@@ -35,6 +35,7 @@ export function patchRedirect(routes: any) {
 export function patchComponentPath(routes: any) {
   const newRoutes = patchRootPath(routes);
   patchRedirect(newRoutes);
+  patchHiddenAndAlwaysShow(newRoutes);
 
   const res = newRoutes.map((route: any) => {
     const topName = route.name.toLowerCase();
@@ -57,4 +58,23 @@ export function patchComponentPath(routes: any) {
 
   //   console.log("res", JSON.stringify(res));
   return res;
+}
+
+// 修改hidden和alwaysShow的位置
+export function patchHiddenAndAlwaysShow(routes: any) {
+  routes.forEach((route: any) => {
+    if (route.hidden !== undefined) {
+      route.meta.hidden = route.hidden;
+      delete route.hidden;
+    }
+
+    if (route.alwaysShow !== undefined) {
+      route.meta.alwaysShow = route.alwaysShow;
+      delete route.alwaysShow;
+    }
+
+    if (route.children) {
+      patchHiddenAndAlwaysShow(route.children);
+    }
+  });
 }
