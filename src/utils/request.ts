@@ -1,6 +1,7 @@
 import axios, { type InternalAxiosRequestConfig, type AxiosResponse } from "axios";
 import qs from "qs";
-import { getToken, isTokenExpired } from "@/utils/auth";
+import { getToken, isTokenExpired, clearToken } from "@/utils/auth";
+import router from "@/router";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -12,6 +13,8 @@ const instance = axios.create({
 });
 
 // 请求拦截器
+const whiteList = ["/login", "/register"];
+
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // 请求拦截器中 判断是否存在token,并添加到请求头 Authorization 中
@@ -19,15 +22,28 @@ instance.interceptors.request.use(
     const token = getToken();
     const isExpire = isTokenExpired();
 
+    // 能获取到token的情况
     if (token) {
       if (!isExpire) {
         config.headers.Authorization = `Bearer ${token}`;
+        return config;
       } else {
         console.log("token过期，跳转到登录页面");
+        clearToken();
+        router.push("/login");
+        return Promise.reject(new Error("token过期"));
       }
     }
-
-    return config;
+    // 获取不到token情况
+    else {
+      if (whiteList.some((url) => config.url?.startsWith(url))) {
+        return config; // 白名单放行
+      } else {
+        console.log("未登录，跳转到登录页面");
+        router.push("/login");
+        return Promise.reject(new Error("未登录"));
+      }
+    }
   },
   (error) => {
     return Promise.reject(error);
@@ -53,6 +69,10 @@ instance.interceptors.response.use(
     } else if (code === 401) {
       ElMessage.warning("登录过期，请重新登录");
       // 登出，回到登录页面
+      clearToken();
+      router.push("/login");
+      // 手动抛出异常, 中断请求链。
+      return Promise.reject(new Error("登录过期"));
     } else {
       // 业务失败（后端返回 code 非 200）
       ElMessage.error(msg || "请求失败");
@@ -69,7 +89,7 @@ instance.interceptors.response.use(
       ElMessage.error(err.message || "系统出错");
     }
 
-    return Promise.reject(err.message);
+    return Promise.reject(err);
   }
 );
 

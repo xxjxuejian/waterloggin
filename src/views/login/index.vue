@@ -3,6 +3,11 @@ import type { FormInstance } from "element-plus";
 import type { LoginFormData } from "@/api/auth.api.ts";
 
 import { useUserStoreHook } from "@/store/modules/user.store.ts";
+import router from "@/router";
+// import { usePermissionStoreHook } from "@/store/modules/permission.store.ts";
+
+// const permissionStore = usePermissionStoreHook();
+// permissionStore.generateRoutes();
 
 const userStore = useUserStoreHook();
 // 查询表单，叫做queryParams , reactive
@@ -46,8 +51,17 @@ const handleLoginSubmit = async () => {
     await userStore.login(loginForm.value);
 
     ElMessage.success("登录成功");
+    router.push("/");
+
     // 获取用户信息
-    await userStore.getUserInfo();
+    // await userStore.getUserInfo();
+
+    // 获取用户菜单(路由)列表
+    // const routes = await userStore.getRoutes();
+    // console.log("routes", routes);
+
+    // const newRoutes = updateComponentPaths(routes);
+    // console.log("newRoutes", newRoutes);
 
     // 跳转 到之前的地址
     console.log("login", loginForm.value);

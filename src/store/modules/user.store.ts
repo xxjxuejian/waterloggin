@@ -25,9 +25,9 @@ export const useUserStore = defineStore("user", () => {
   function getUserInfo() {
     return new Promise((resolve, reject) => {
       AuthAPI.getUserInfo()
-        .then((data: any) => {
-          console.log("userInfo", data);
-          resolve(data);
+        .then((res: any) => {
+          // console.log("userInfo", res);
+          resolve(res.data);
         })
         .catch((err: any) => {
           reject(err);
@@ -35,9 +35,23 @@ export const useUserStore = defineStore("user", () => {
     });
   }
 
+  // 获取用户菜单(路由)列表
+  function getRoutes() {
+    return new Promise((resolve, reject) => {
+      AuthAPI.getRoutes()
+        .then((res: any) => {
+          // console.log("getRoutes", res);
+          resolve(res.data);
+        })
+        .catch((err: any) => {
+          reject(err);
+        });
+    });
+  }
   return {
     login,
     getUserInfo,
+    getRoutes,
   };
 });
 

@@ -27,6 +27,14 @@ const AuthAPI = {
       method: "get",
     });
   },
+
+  /** 获取用户菜单(路由)列表 */
+  getRoutes: () => {
+    return request({
+      url: "/getRouters",
+      method: "get",
+    });
+  },
 };
 
 export default AuthAPI;

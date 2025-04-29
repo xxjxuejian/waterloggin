@@ -9,9 +9,30 @@ export const constantRoutes: RouteRecordRaw[] = [
     meta: { hidden: true },
   },
 
+  /* 
+    系统启动肯定是从 / 路径进入的, 直接显示大屏,后端不能再给一个 / 路径了
+    如果再给一个 / , 只处理  / 的children , 添加为 / 的children
+  */
   {
     path: "/",
-    redirect: "/login",
+    name: "root",
+    redirect: "/district-monitoring",
+    meta: { hidden: true },
+  },
+
+  {
+    path: "/district-monitoring",
+    name: "DistrictMonitoring",
+    component: () => import("@/views/district-monitoring/index.vue"),
+    meta: { title: "大屏页", icon: "screen", affix: true },
+  },
+
+  {
+    path: "/:pathMatch(.*)",
+    component: () => import("@/views/error/404.vue"),
+    meta: {
+      hidden: true,
+    },
   },
 ];
 

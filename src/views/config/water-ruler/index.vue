@@ -1,7 +1,7 @@
-<script setup></script>
+<script setup lang="ts"></script>
 
 <template>
-  <div>dashboard</div>
+  <div>water-ruler</div>
 </template>
 
 <style lang="scss" scoped></style>
