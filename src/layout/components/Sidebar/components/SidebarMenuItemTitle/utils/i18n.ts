@@ -5,6 +5,8 @@ export function translateRouteTitle(title: any) {
   const hasKey = i18n.global.te("sidebar." + title);
   if (hasKey) {
     return i18n.global.t("sidebar." + title);
+    // const res = i18n.global.t("sidebar." + title);
+    // return res;
   }
   return title;
 }

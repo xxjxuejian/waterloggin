@@ -31,6 +31,7 @@ export function setupPermission() {
         else {
           try {
             // 生成动态路由
+            console.log("生成路由");
             const dynamicRoutes = await permissionStore.generateRoutes();
             // 注册动态路由
             dynamicRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route));

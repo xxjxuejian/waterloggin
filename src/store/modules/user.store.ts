@@ -26,8 +26,9 @@ export const useUserStore = defineStore("user", () => {
     return new Promise((resolve, reject) => {
       AuthAPI.getUserInfo()
         .then((res: any) => {
-          // console.log("userInfo", res);
-          resolve(res.data);
+          console.log("userInfo", JSON.stringify(res));
+          // res没有data属性
+          resolve(res);
         })
         .catch((err: any) => {
           reject(err);

@@ -30,7 +30,7 @@ export const useAppStore = defineStore("app", () => {
   const toggleLanguage = () => {
     const newLang = language.value === "zh-cn" ? "en" : "zh-cn";
     language.value = newLang;
-    // 切换以后要更新i18n 实例
+    // 切换以后要更新i18n 实例的locale值
     i18n.global.locale.value = newLang;
   };
 

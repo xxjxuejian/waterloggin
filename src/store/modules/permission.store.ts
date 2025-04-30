@@ -22,7 +22,7 @@ export const usePermissionStore = defineStore("permission", () => {
     return new Promise((resolve, reject) => {
       AuthAPI.getRoutes()
         .then((res: any) => {
-          //   console.log("getRouters", res.data);
+          // console.log("getRouters", JSON.stringify(res.data));
           const patchedRoutes = patchComponentPath(res.data);
           //   console.log("patchedRoutes", patchedRoutes);
 
