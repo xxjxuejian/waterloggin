@@ -32,7 +32,10 @@ defineProps({
 
     <template v-else>
       <el-menu-item :index="route.path">
-        <SidebarMenuItemTitle :title="route.meta.title"></SidebarMenuItemTitle>
+        <SidebarMenuItemTitle
+          :title="route.meta.title"
+          :iconName="route.meta.icon"
+        ></SidebarMenuItemTitle>
       </el-menu-item>
     </template>
   </template>

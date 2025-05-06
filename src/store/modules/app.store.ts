@@ -1,12 +1,19 @@
 import { pinia } from "@/store";
 import i18n from "@/lang/index";
 
+// 导入 Element Plus 中英文语言包
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+import en from "element-plus/dist/locale/en.mjs";
+
 export const useAppStore = defineStore("app", () => {
   // 系统标题
   const systemTitle = ref("城市内涝预警系统");
 
   // 默认语言
   const language = ref("zh-cn");
+
+  // element-plus 组件库的语言包
+  const locale = computed(() => (language.value === "zh-cn" ? zhCn : en));
 
   // 是否收缩侧边栏
   const isSidebarCollapse = ref(false);
@@ -37,6 +44,7 @@ export const useAppStore = defineStore("app", () => {
   return {
     systemTitle,
     language,
+    locale,
     toggleLanguage,
     isSidebarCollapse,
     toggleSidebar,

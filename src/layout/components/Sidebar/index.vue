@@ -14,16 +14,13 @@ const isCollapse = computed(() => appStore.isSidebarCollapse);
     <div class="title flex justify-center items-center">
       <!-- 侧边栏收缩时才显示图标 -->
       <img
-        v-if="appStore.isSidebarCollapse"
+        v-if="isCollapse"
         :src="titleLogo"
         alt="logo"
         class="w-[20px] h-[20px]"
         :title="systemTitle"
       />
-      <span
-        v-if="!isCollapse"
-        class="ml-3 text-ellipsis whitespace-nowrap overflow-hidden text-white text-xl"
-      >
+      <span v-else class="ml-3 text-ellipsis whitespace-nowrap overflow-hidden text-white text-xl">
         {{ systemTitle }}
       </span>
     </div>

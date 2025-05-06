@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { translateRouteTitle } from "./utils/i18n";
+// import { translateRouteTitle } from "./utils/i18n";
 
 defineProps({
   isShowIcon: {
@@ -25,7 +25,7 @@ defineProps({
   <SvgIcon v-if="isShowIcon" :icon-name="iconName" color="#fff" size="20px"></SvgIcon>
   <span
     class="ml-2 text-base text-ellipsis whitespace-nowrap overflow-hidden"
-    :title="translateRouteTitle(title)"
+    :title="$t(`sidebar.${title}`)"
   >
     <!-- {{ translateRouteTitle(title) }} -->
     <!-- 或者是直接用 $t 来获取 -->
