@@ -11,7 +11,7 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div class="hamburger-wrapper bg-green-500">
+  <div class="hamburger-wrapper">
     <!-- 折叠 -->
     <el-icon v-if="!isCollapse" size="20px" @click="toggleSidebar">
       <Fold />

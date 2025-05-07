@@ -30,6 +30,13 @@ export default {
     operationConsole: "操作日志",
   },
 
+  // 导航栏国际化
+  navbar: {
+    dashboard: "首页大屏",
+    logout: "注销登录",
+    profile: "个人中心",
+  },
+
   // 语言切换
   langSelect: {
     message: {

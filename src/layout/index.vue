@@ -1,15 +1,6 @@
 <script setup>
 import Sidebar from "./components/Sidebar/index.vue";
 import Navbar from "./components/Navbar/index.vue";
-// import router from "@/router";
-
-// import { useAppStoreHook } from "@/store/modules/app.store.ts";
-
-// const appStore = useAppStoreHook();
-
-// const goHome = () => {
-//   router.push("/");
-// };
 </script>
 
 <template>
@@ -39,16 +30,6 @@ import Navbar from "./components/Navbar/index.vue";
     flex: 1;
     flex-direction: column;
     overflow: hidden;
-
-    .navbar-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: $navbar-height;
-      padding: 0 20px;
-      background-color: #6b80eb52;
-    }
 
     .tagsview {
       width: 100%;

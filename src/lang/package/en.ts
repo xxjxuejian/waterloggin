@@ -29,6 +29,13 @@ export default {
     operationConsole: "Operation Logs",
   },
 
+  // 导航栏国际化
+  navbar: {
+    dashboard: "Dashboard",
+    logout: "Log Out",
+    profile: "Profile Center",
+  },
+
   langSelect: {
     message: {
       success: "Switch Language Successful!",
