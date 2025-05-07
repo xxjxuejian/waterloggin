@@ -8,6 +8,7 @@ export {};
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Breadcrumb: typeof import('./../components/Breadcrumb/index.vue')['default']
     ElBacktop: (typeof import("element-plus/es"))["ElBacktop"]
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -56,6 +57,7 @@ declare module 'vue' {
     ElTreeSelect: (typeof import("element-plus/es"))["ElTreeSelect"]
     ElUpload: (typeof import("element-plus/es"))["ElUpload"]
     ElWatermark: (typeof import("element-plus/es"))["ElWatermark"]
+    Hamburger: typeof import('./../components/Hamburger/index.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     IconEpEdit: typeof import('~icons/ep/edit')['default']
     IconEpPlus: typeof import('~icons/ep/plus')['default']
@@ -65,6 +67,7 @@ declare module 'vue' {
     IEpUpload: typeof import('~icons/ep/upload')['default']
     IEpWarningFilled: typeof import('~icons/ep/warning-filled')['default']
     IEpWarnTriangleFilled: typeof import('~icons/ep/warn-triangle-filled')['default']
+    Navbar: typeof import('./../layout/components/Navbar/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./../layout/components/Sidebar/index.vue')['default']

@@ -1,14 +1,15 @@
 <script setup>
 import Sidebar from "./components/Sidebar/index.vue";
-import router from "@/router";
+import Navbar from "./components/Navbar/index.vue";
+// import router from "@/router";
 
-import { useAppStoreHook } from "@/store/modules/app.store.ts";
+// import { useAppStoreHook } from "@/store/modules/app.store.ts";
 
-const appStore = useAppStoreHook();
+// const appStore = useAppStoreHook();
 
-const goHome = () => {
-  router.push("/");
-};
+// const goHome = () => {
+//   router.push("/");
+// };
 </script>
 
 <template>
@@ -16,16 +17,17 @@ const goHome = () => {
     <Sidebar />
 
     <div class="main-content">
-      <div class="navbar">
-        <el-button type="primary" @click="appStore.toggleSidebar">
+      <Navbar />
+      <!-- <div class="navbar-wrapper"> -->
+      <!-- <el-button type="primary" @click="appStore.toggleSidebar">
           {{ appStore.isSidebarCollapse ? "展开" : "收起" }}
         </el-button>
         导航栏
         <el-button type="primary" @click="goHome">首页大屏</el-button>
         <el-button type="primary" @click="appStore.toggleLanguage">
           切换为{{ appStore.language === "zh-cn" ? "英文" : "中文" }}
-        </el-button>
-      </div>
+        </el-button> -->
+      <!-- </div> -->
       <div class="tagsview">标签栏</div>
       <div class="app-main">
         router-view
@@ -45,10 +47,15 @@ const goHome = () => {
     display: flex;
     flex: 1;
     flex-direction: column;
+    overflow: hidden;
 
-    .navbar {
+    .navbar-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       width: 100%;
-      height: 50px;
+      height: $navbar-height;
+      padding: 0 20px;
       background-color: #6b80eb52;
     }
 

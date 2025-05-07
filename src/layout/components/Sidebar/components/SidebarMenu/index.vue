@@ -11,16 +11,16 @@ const routes = computed(() => permissionStore.routes);
 
 // 计算高亮 menu 的方法,默认激活菜单的 index
 const route = useRoute();
-const activeMenu = computed(() => {
-  const { path } = route;
-  return path;
-});
+// const activeMenu = computed(() => {
+//   const { path } = route;
+//   return path;
+// });
 
 console.log("routes", routes.value);
 </script>
 
 <template>
-  <el-menu :collapse="appStore.isSidebarCollapse" :default-active="activeMenu" router>
+  <el-menu :collapse="appStore.isSidebarCollapse" :default-active="route.path" unique-opened router>
     <SidebarMenuItem v-for="route in routes" :key="route.path" :route="route"></SidebarMenuItem>
   </el-menu>
 </template>
