@@ -58,7 +58,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       // 用来自动导入函数的
       AutoImport({
         // 导入 Vue 函数，如：ref, reactive, toRef 等
-        imports: ["vue", "pinia", "vue-router"],
+        imports: ["vue", "pinia", "vue-router", "@vueuse/core"],
 
         resolvers: [
           // 导入 Element Plus函数，如：ElMessage, ElMessageBox 等

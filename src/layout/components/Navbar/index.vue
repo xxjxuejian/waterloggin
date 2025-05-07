@@ -7,7 +7,17 @@
       <!-- 面包屑 -->
       <Breadcrumb />
     </div>
-    <div class="navbar__right bg-blue-500">navbar__right</div>
+    <div class="navbar__right bg-blue-100">
+      <!-- 全屏 -->
+      <FullScreen />
+
+      <!-- 语言选择 -->
+      <LangSelect />
+
+      <!-- 通知下拉 -->
+
+      <!-- 用户头像（个人中心、注销登录等） -->
+    </div>
   </div>
 </template>
 
@@ -30,8 +40,9 @@
 
   &__right {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     align-items: center;
+    padding: 0 20px;
   }
 }
 </style>

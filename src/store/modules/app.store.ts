@@ -41,11 +41,20 @@ export const useAppStore = defineStore("app", () => {
     i18n.global.locale.value = newLang;
   };
 
+  // 修改语言
+  const changeLanguage = (value: string) => {
+    language.value = value;
+    // 切换以后要更新i18n 实例的locale值
+    i18n.global.locale.value = value;
+    // 切换以后要更新element-plus 组件库的locale值,计算属性会自动更新
+  };
+
   return {
     systemTitle,
     language,
     locale,
     toggleLanguage,
+    changeLanguage,
     isSidebarCollapse,
     toggleSidebar,
     expandSidebar,

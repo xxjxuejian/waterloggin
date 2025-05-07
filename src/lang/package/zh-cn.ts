@@ -29,4 +29,11 @@ export default {
     menuManage: "菜单管理",
     operationConsole: "操作日志",
   },
+
+  // 语言切换
+  langSelect: {
+    message: {
+      success: "切换语言成功！",
+    },
+  },
 };

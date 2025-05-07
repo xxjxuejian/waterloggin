@@ -28,4 +28,10 @@ export default {
     menuManage: "Menu Management",
     operationConsole: "Operation Logs",
   },
+
+  langSelect: {
+    message: {
+      success: "Switch Language Successful!",
+    },
+  },
 };

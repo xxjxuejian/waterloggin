@@ -18,16 +18,7 @@ import Navbar from "./components/Navbar/index.vue";
 
     <div class="main-content">
       <Navbar />
-      <!-- <div class="navbar-wrapper"> -->
-      <!-- <el-button type="primary" @click="appStore.toggleSidebar">
-          {{ appStore.isSidebarCollapse ? "展开" : "收起" }}
-        </el-button>
-        导航栏
-        <el-button type="primary" @click="goHome">首页大屏</el-button>
-        <el-button type="primary" @click="appStore.toggleLanguage">
-          切换为{{ appStore.language === "zh-cn" ? "英文" : "中文" }}
-        </el-button> -->
-      <!-- </div> -->
+
       <div class="tagsview">标签栏</div>
       <div class="app-main">
         router-view
