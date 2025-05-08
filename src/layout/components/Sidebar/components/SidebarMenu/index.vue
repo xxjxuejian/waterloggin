@@ -35,5 +35,11 @@ console.log("routes", routes.value);
   --el-menu-active-color: #fff;
   // 侧边栏 hover状态时的背景颜色
   --el-menu-hover-bg-color: #1890ff;
+  border: none;
+
+  &.el-menu--collapse {
+    width: $sidebar-width-collapsed;
+    overflow: hidden;
+  }
 }
 </style>

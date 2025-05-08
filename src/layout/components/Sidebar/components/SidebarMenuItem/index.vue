@@ -19,7 +19,10 @@ defineProps({
     <template v-if="route.children">
       <el-sub-menu :index="route.path">
         <template #title>
-          <SidebarMenuItemTitle :title="route.meta.title"></SidebarMenuItemTitle>
+          <SidebarMenuItemTitle
+            :title="route.meta.title"
+            :iconName="route.meta.icon"
+          ></SidebarMenuItemTitle>
         </template>
 
         <SidebarMenuItem

@@ -3,6 +3,7 @@ import { useUserStoreHook } from "@/store/modules/user.store.ts";
 
 const userStore = useUserStoreHook();
 const router = useRouter();
+
 // const route = useRoute();
 // 回到首页大屏
 const goBigScreen = () => {
@@ -53,7 +54,7 @@ const logout = () => {
       <el-dropdown trigger="click" class="h-full">
         <div class="flex items-center justify-center px-3">
           <img class="w-8 h-8 rounded-full" src="@/assets/images/avatar.png" />
-          <span class="ml-3">admin</span>
+          <span class="ml-3">{{ userStore.userInfo.userName }}</span>
         </div>
 
         <template #dropdown>

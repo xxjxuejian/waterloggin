@@ -48,3 +48,40 @@ export interface LoginFormData {
   /** 记住我 */
   rememberMe: boolean;
 }
+
+// 用户信息
+export interface UserInfo {
+  createBy?: string;
+  createTime?: string;
+  remark?: string;
+  userId?: number;
+  deptId?: number;
+  userName?: string;
+  nickName?: string;
+  email?: string;
+  phonenumber?: string;
+  sex?: string;
+  avatar?: string;
+  password?: string;
+  status?: string;
+  delFlag?: string;
+  loginIp?: string;
+  loginDate?: string;
+  dept?: Dept;
+  roles?: any[];
+  post?: string;
+  duty?: string;
+  admin?: boolean;
+}
+
+export interface Dept {
+  deptId?: number;
+  parentId?: number;
+  ancestors?: string;
+  deptName?: string;
+  orderNum?: number;
+  leader?: string;
+  status?: string;
+  children?: Dept[];
+  userList?: any[];
+}

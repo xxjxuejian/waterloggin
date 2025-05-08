@@ -22,7 +22,7 @@ defineProps({
 </script>
 
 <template>
-  <SvgIcon v-if="isShowIcon" :icon-name="iconName" color="#fff" size="20px"></SvgIcon>
+  <SvgIcon v-if="isShowIcon" :icon-name="iconName" color="#fff" size="16px"></SvgIcon>
   <span
     class="ml-2 text-base text-ellipsis whitespace-nowrap overflow-hidden"
     :title="$t(`sidebar.${title}`)"

@@ -54,7 +54,8 @@ const handleLoginSubmit = async () => {
     router.push("/");
 
     // 获取用户信息
-    await userStore.getUserInfo();
+    const userinfo = await userStore.getUserInfo();
+    console.log("11", userinfo);
 
     // 获取用户菜单(路由)列表
     // const routes = await userStore.getRoutes();

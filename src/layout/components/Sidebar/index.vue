@@ -20,13 +20,13 @@ const isCollapse = computed(() => appStore.isSidebarCollapse);
         class="w-[20px] h-[20px]"
         :title="systemTitle"
       />
-      <span v-else class="ml-3 text-ellipsis whitespace-nowrap overflow-hidden text-white text-xl">
+      <span v-else class="text-ellipsis whitespace-nowrap overflow-hidden text-white text-xl">
         {{ systemTitle }}
       </span>
     </div>
 
     <!-- 菜单 -->
-    <!-- <div class="menu"></div> -->
+
     <el-scrollbar>
       <SidebarMenu></SidebarMenu>
     </el-scrollbar>
@@ -50,6 +50,7 @@ const isCollapse = computed(() => appStore.isSidebarCollapse);
 
   //  必须设置高度，内容超出才能出现滚动条
   .el-scrollbar {
+    width: 100%;
     height: calc(100vh - $navbar-height);
   }
 }
