@@ -6,7 +6,7 @@ import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-rou
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/login",
-    component: () => import("@/views/login/index.vue"),
+    component: () => import("@/views/login/index3.vue"),
     meta: { hidden: true },
   },
 

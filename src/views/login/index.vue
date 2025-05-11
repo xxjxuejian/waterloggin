@@ -1,204 +1,140 @@
-<script setup lang="ts">
-import type { FormInstance } from "element-plus";
-import type { LoginFormData } from "@/api/auth.api.ts";
-
-import { useUserStoreHook } from "@/store/modules/user.store.ts";
-import router from "@/router";
-// import { usePermissionStoreHook } from "@/store/modules/permission.store.ts";
-
-// const permissionStore = usePermissionStoreHook();
-// permissionStore.generateRoutes();
-
-const userStore = useUserStoreHook();
-// 查询表单，叫做queryParams , reactive
-
-// 登录表单，提交表单，叫做loginForm/formData/   reactive
-const loginFormRef = ref<FormInstance>();
-const loginForm = ref<LoginFormData>({
-  username: "admin",
-  password: "zkpy2024",
-  rememberMe: false,
-});
-
-// 密码校验规则
-const checkPwd = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error("请输入密码"));
-  }
-  if (value.length < 6 || value.length > 20) {
-    return callback(new Error("密码长度应为 6 到 20 位"));
-  }
-  const reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/;
-  if (!reg.test(value)) {
-    return callback(new Error("密码需包含字母和数字"));
-  }
-  callback(); // 校验通过
-};
-
-// 表单验证规则,使用reactive
-const loginFormRules = reactive({
-  username: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
-  password: [{ validator: checkPwd, trigger: "blur" }],
-});
-
-const handleLoginSubmit = async () => {
-  try {
-    const valid = await loginFormRef.value?.validate();
-    if (!valid) return;
-    loading.value = true;
-
-    // 执行登录操作
-    await userStore.login(loginForm.value);
-
-    ElMessage.success("登录成功");
-    router.push("/");
-
-    // 获取用户信息
-    const userinfo = await userStore.getUserInfo();
-    console.log("11", userinfo);
-
-    // 获取用户菜单(路由)列表
-    // const routes = await userStore.getRoutes();
-    // console.log("routes", routes);
-
-    // const newRoutes = updateComponentPaths(routes);
-    // console.log("newRoutes", newRoutes);
-
-    // 跳转 到之前的地址
-    console.log("login", loginForm.value);
-  } catch (error) {
-    console.error("登录失败:", error);
-  } finally {
-    loading.value = false;
-  }
-};
-
-// 加载状态
-const loading = ref(false);
-const year = new Date().getFullYear();
-</script>
-
 <template>
-  <div class="wh-full login flex-center relative">
-    <!-- 定位 -->
-    <div class="login-header text-white absolute top-0 right-0">login-header</div>
-
-    <div class="login-form">
-      <!-- title -->
-      <div
-        class="absolute top-[42px] left-1/2 -translate-x-1/2 font-bold text-[22px] textGradient-login"
+  <div class="province-selector">
+    <div v-for="province in provinceList" :key="province.provinceId" class="province-button">
+      <el-popover
+        v-model:visible="visibleMap[province.provinceId]"
+        placement="bottom"
+        trigger="click"
       >
-        系统登录
-      </div>
-
-      <!-- 登录表单 -->
-      <el-form
-        ref="loginFormRef"
-        :model="loginForm"
-        :rules="loginFormRules"
-        class="h-full flex flex-col justify-between"
-      >
-        <el-form-item prop="username">
-          <el-input v-model="loginForm.username" placeholder="请输入用户名">
-            <template #prefix>
-              <el-icon><User /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item prop="password">
-          <el-input
-            v-model="loginForm.password"
-            placeholder="请输入密码"
-            type="password"
-            show-password
-          >
-            <template #prefix>
-              <el-icon><Lock /></el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-
-        <!-- 记住我/忘记密码 -->
-        <div class="flex-x-between w-full">
-          <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
-          <!-- <el-link type="primary" @click="unfinished">忘记密码</el-link> -->
+        <!-- 弹出框内容：市级复选框列表 -->
+        <div v-for="city in province.cities" :key="city.cityId">
+          <el-checkbox
+            v-model="checkedCitiesMap[province.provinceId][city.cityId]"
+            :label="city.cityName"
+            @change="onCityChange(province.provinceId)"
+          />
         </div>
 
-        <el-button
-          :loading="loading"
-          type="primary"
-          size="large"
-          class="btnGradient-login"
-          @click="handleLoginSubmit"
-        >
-          登录
-        </el-button>
-      </el-form>
-    </div>
-
-    <!-- 定位 -->
-    <div class="w-full text-white text-size-sm absolute bottom-[30px] flex-center gap-12">
-      <span>© {{ year }}版权所有</span>
-      <span>技术支持：中科数遥（杭州）科技有限公司</span>
+        <!-- 按钮触发区域 -->
+        <template #reference>
+          <el-button @click.stop>
+            <el-checkbox
+              v-model="provinceCheckedMap[province.provinceId]"
+              :indeterminate="isIndeterminate(province.provinceId)"
+              @change="onProvinceChange(province.provinceId)"
+            >
+              {{ province.provinceName }}
+            </el-checkbox>
+            <el-icon class="ml-2">
+              <ArrowDown />
+            </el-icon>
+          </el-button>
+        </template>
+      </el-popover>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.login {
-  background-image: url("@/assets/images/login_bg2.png");
-  background-position: center center;
-  background-size: 100% 100%;
+<script setup>
+import { reactive } from "vue";
+import { ElCheckbox, ElPopover, ElButton, ElIcon } from "element-plus";
+import { ArrowDown } from "@element-plus/icons-vue";
 
-  .login-form {
-    position: relative;
-    width: 560px;
-    height: 430px;
-    padding: 130px 50px 50px 50px;
-    background-image: url("@/assets/images/loginBox.png");
-    background-size: 100% 100%;
+// 模拟多组省份数据
+const provinceList = [
+  {
+    provinceId: "430000",
+    provinceName: "湖南省",
+    cities: [
+      { cityId: "430100", cityName: "长沙市" },
+      { cityId: "430200", cityName: "株洲市" },
+      { cityId: "430300", cityName: "湘潭市" },
+    ],
+  },
+  {
+    provinceId: "440000",
+    provinceName: "广东省",
+    cities: [
+      { cityId: "440100", cityName: "广州市" },
+      { cityId: "440300", cityName: "深圳市" },
+      { cityId: "440600", cityName: "佛山市" },
+    ],
+  },
+  {
+    provinceId: "330000",
+    provinceName: "浙江省",
+    cities: [
+      { cityId: "330100", cityName: "杭州市" },
+      { cityId: "330200", cityName: "宁波市" },
+      { cityId: "330300", cityName: "温州市" },
+    ],
+  },
+];
 
-    :deep(.el-form) {
-      .el-form-item {
-        .el-input {
-          --el-input-inner-height: 52px;
-          .el-input__wrapper {
-            color: #fff;
-            background-color: #324863;
-            box-shadow: none;
+// 控制弹出框的显示状态
+// 控制每个省份弹出框是否可见
+const visibleMap = reactive({});
+// 记录每个省份复选框是否选中
+const provinceCheckedMap = reactive({});
+// 记录每个城市是否选中（按省分类）
+const checkedCitiesMap = reactive({});
 
-            &.is-foucus,
-            &:hover {
-              box-shadow: none;
-            }
+// 初始化各省状态
+provinceList.forEach((province) => {
+  visibleMap[province.provinceId] = false;
+  provinceCheckedMap[province.provinceId] = false;
+  checkedCitiesMap[province.provinceId] = {};
+  province.cities.forEach((city) => {
+    checkedCitiesMap[province.provinceId][city.cityId] = false;
+  });
+});
 
-            .el-input__inner {
-              margin-left: 10px;
-              font-size: 18px;
-              color: #fff;
-            }
-          }
-        }
-      }
-    }
+// 判断是否不确定状态
+const isIndeterminate = (provinceId) => {
+  const cities = Object.values(checkedCitiesMap[provinceId]);
+  const selected = cities.filter(Boolean).length;
+  return selected > 0 && selected < cities.length;
+};
 
-    .el-button {
-      height: 52px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #fefefe;
-      letter-spacing: 0.4em;
-      border: none;
+// 点击省级复选框
+const onProvinceChange = (provinceId) => {
+  // 先获取到这个复选框的状态，是否是选中状态，是点击以后得状态值
+  const isChecked = provinceCheckedMap[provinceId];
+  // 这个省下面的所有市的key
+  Object.keys(checkedCitiesMap[provinceId]).forEach((cityId) => {
+    checkedCitiesMap[provinceId][cityId] = isChecked;
+  });
+};
 
-      &:hover {
-        background-image: linear-gradient(
-          to bottom,
-          rgba(57, 155, 255, 0.9),
-          rgba(18, 110, 235, 0.9)
-        ) !important;
-      }
-    }
+// 点击子项复选框
+const onCityChange = (provinceId) => {
+  const cityStates = Object.values(checkedCitiesMap[provinceId]);
+  const allChecked = cityStates.every(Boolean);
+  const noneChecked = cityStates.every((v) => !v);
+
+  if (allChecked) {
+    provinceCheckedMap[provinceId] = true;
+  } else if (noneChecked) {
+    provinceCheckedMap[provinceId] = false;
+  } else {
+    provinceCheckedMap[provinceId] = false; // 仍然 false，靠 indeterminate 控制状态
   }
+};
+</script>
+
+<style scoped>
+.province-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  background-color: antiquewhite;
+}
+
+.province-button {
+  display: inline-flex;
+  align-items: center;
 }
 </style>
