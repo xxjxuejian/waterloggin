@@ -11,3 +11,40 @@
 .btnGradient-login {
   background-image: linear-gradient(to bottom, #399bff, #126eeb);
 }
+
+/* 引入外部字体 */
+@font-face {
+  font-family: "title";
+  src: url("@/assets/fonts/title.TTF");
+}
+
+@font-face {
+  font-family: "led";
+  src: url("@/assets/fonts/FX-LED.ttf");
+}
+
+@font-face {
+  font-family: "count";
+  src: url("@/assets/fonts/count.TTF");
+}
+
+@font-face {
+  font-family: "ysbth";
+  src: url("@/assets/fonts/ysbth.ttf");
+}
+
+.font-title {
+  font-family: "title", sans-serif;
+}
+
+.font-led {
+  font-family: "led", sans-serif;
+}
+
+.font-count {
+  font-family: "count", sans-serif;
+}
+
+.font-ysbth {
+  font-family: "ysbth", sans-serif;
+}

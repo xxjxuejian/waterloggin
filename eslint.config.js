@@ -97,4 +97,19 @@ export default [
       "vue/multi-word-component-names": "off", // 允许单个单词组件名
     },
   },
+
+  // 忽略文件
+  {
+    ignores: [
+      "dist",
+      "node_modules",
+      "public",
+      ".husky",
+      ".vscode",
+      ".idea",
+      "**/*.sh",
+      "**/*.md",
+      "stats.html",
+    ],
+  },
 ];

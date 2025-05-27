@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint:eslint": "eslint --cache  \"src/**/*.{vue,ts}\" --fix",
     "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,css,scss,vue,html,md}\"",
-    "lint:stylelint": "stylelint  \"**/*.{css,scss,vue,html}\" --fix",
+    "lint:stylelint": "stylelint  \"**/*.{css,scss,vue,html}\" --fix --allow-empty-input",
     "lint:lint-staged": "lint-staged",
     "prepare": "husky",
     "commit": "git-cz"
@@ -30,11 +30,10 @@
     "*.{vue,html}": [
       "eslint --fix",
       "prettier --write",
-      "stylelint --fix"
+      "stylelint --fix --allow-empty-input"
     ],
     "*.{scss,css}": [
-      "stylelint --fix",
-      "prettier --write"
+      "stylelint --fix --allow-empty-input"
     ],
     "*.md": [
       "prettier --write"
@@ -44,6 +43,7 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^13.1.0",
     "axios": "^1.8.4",
+    "cesium": "^1.129.0",
     "element-plus": "^2.9.8",
     "pinia": "^3.0.2",
     "qs": "^6.14.0",
