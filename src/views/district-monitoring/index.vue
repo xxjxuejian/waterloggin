@@ -14,22 +14,22 @@ const goAdminSystem = () => {
 // The URL on your server where CesiumJS's static files are hosted.
 window.CESIUM_BASE_URL = "/Static/Cesium";
 
-import {
-  Cartesian3,
-  createOsmBuildingsAsync,
-  Ion,
-  Math as CesiumMath,
-  Terrain,
-  Viewer,
-} from "cesium";
+//  Cartesian3, createOsmBuildingsAsync, Math as CesiumMath,
+
+import { Ion, Viewer } from "cesium";
+import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
 Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MmJlY2YxZS0xZWQ1LTRiNGItYjBlNy1iNmMwYTVjMzNiYzYiLCJpZCI6MjQ3NTIyLCJpYXQiOjE3MzIwMDE2MjB9.r2CklVFhmGaQxjLV1Spscr1WO_BBaOuRAnyeybN4QiE";
 
+// 天地图token
+const webKey = "da499f7d0eeb7c2e4bf72b84b13a5918";
+
 onMounted(async () => {
   const viewer = new Viewer("cesiumContainer", {
-    terrain: Terrain.fromWorldTerrain(),
+    // 开启地形，会有3d效果
+    // terrain: Terrain.fromWorldTerrain(),
     geocoder: false, //地理搜索工具
     homeButton: false, //主页按钮
     // 控制查看器的显示模式
@@ -48,18 +48,48 @@ onMounted(async () => {
     fullscreenButton: false,
   });
 
-  viewer.camera.flyTo({
-    destination: Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-    orientation: {
-      heading: CesiumMath.toRadians(0.0),
-      pitch: CesiumMath.toRadians(-15.0),
-    },
-  });
+  // viewer.camera.flyTo({
+  //   destination: Cartesian3.fromDegrees(-122.4175, 37.655, 400),
+  //   orientation: {
+  //     heading: CesiumMath.toRadians(0.0),
+  //     pitch: CesiumMath.toRadians(-15.0),
+  //   },
+  // });
 
   // Add Cesium OSM Buildings, a global 3D buildings layer.
   // 添加3d建筑物模型
-  const buildingTileset = await createOsmBuildingsAsync();
-  viewer.scene.primitives.add(buildingTileset);
+  // const buildingTileset = await createOsmBuildingsAsync();
+  // viewer.scene.primitives.add(buildingTileset);
+
+  // 添加天地图影像图层
+  viewer.imageryLayers.addImageryProvider(
+    new Cesium.WebMapTileServiceImageryProvider({
+      url:
+        "https://t0.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=" +
+        webKey,
+      layer: "img",
+      style: "default",
+      tileMatrixSetID: "w",
+      format: "tiles",
+      maximumLevel: 18,
+      subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
+    })
+  );
+
+  // 天地图矢量注记
+  viewer.imageryLayers.addImageryProvider(
+    new Cesium.WebMapTileServiceImageryProvider({
+      url:
+        "https://t0.tianditu.gov.cn/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=" +
+        webKey,
+      layer: "cia",
+      style: "default",
+      tileMatrixSetID: "w",
+      format: "tiles",
+      maximumLevel: 18,
+      subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
+    })
+  );
 });
 </script>
 
