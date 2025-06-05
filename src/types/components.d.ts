@@ -69,6 +69,7 @@ declare module 'vue' {
     IEpWarningFilled: typeof import('~icons/ep/warning-filled')['default']
     IEpWarnTriangleFilled: typeof import('~icons/ep/warn-triangle-filled')['default']
     LangSelect: typeof import('./../components/LangSelect/index.vue')['default']
+    Map: typeof import('./../views/district-monitoring/components/Map.vue')['default']
     Navbar: typeof import('./../layout/components/Navbar/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -77,5 +78,6 @@ declare module 'vue' {
     SidebarMenuItem: typeof import('./../layout/components/Sidebar/components/SidebarMenuItem/index.vue')['default']
     SidebarMenuItemTitle: typeof import('./../layout/components/Sidebar/components/SidebarMenuItemTitle/index.vue')['default']
     SvgIcon: typeof import('./../components/SvgIcon/index.vue')['default']
+    Toolbar: typeof import('./../views/district-monitoring/components/Toolbar.vue')['default']
   }
 }

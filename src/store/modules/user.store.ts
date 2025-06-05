@@ -11,6 +11,11 @@ export const useUserStore = defineStore("user", () => {
   // 4.页面刷新后，它会从 localStorage 读取已有值自动恢复。
   const userInfo = useStorage<UserInfo>("userInfo", {} as UserInfo);
 
+  // 初始化租户中心经纬度
+  const initCenter = ref({
+    lon: 120.3,
+    lat: 30.43,
+  });
   // 登录
   function login(LoginFormData: LoginFormData) {
     return new Promise<void>((resolve, reject) => {
@@ -83,6 +88,7 @@ export const useUserStore = defineStore("user", () => {
     userInfo,
     getUserInfo,
     getRoutes,
+    initCenter,
   };
 });
 
