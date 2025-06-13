@@ -5,11 +5,16 @@ import reset from "@/assets/images/reset.png";
 import layer from "@/assets/images/layer.png";
 import measure from "@/assets/images/measure.png";
 
-import { useCesium } from "@/composables/useCesium";
+import { useCesiumStore } from "@/store/modules/cesium.store.ts";
 
-const { mapOperations, viewer } = useCesium();
+const cesiumStore = useCesiumStore();
+
+// 从 store 中提取属性时需要保持其响应性，需要使用 storeToRefs()，使用要加.value
+// 直接从 store 中解构 action，不需要使用storeToRefs()
+const { viewer } = storeToRefs(cesiumStore);
+const { mapOperations } = cesiumStore;
+
 const handleZoomIn = () => {
-  console.log("viewer.value", viewer.value);
   if (!viewer.value) {
     console.warn("Viewer is not initialized yet");
     return;
