@@ -9,6 +9,7 @@ export {};
 declare module 'vue' {
   export interface GlobalComponents {
     Breadcrumb: typeof import('./../components/Breadcrumb/index.vue')['default']
+    copy: typeof import('./../views/district-monitoring/components/Map copy.vue')['default']
     ElBacktop: (typeof import("element-plus/es"))["ElBacktop"]
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -70,6 +71,7 @@ declare module 'vue' {
     IEpWarnTriangleFilled: typeof import('~icons/ep/warn-triangle-filled')['default']
     LangSelect: typeof import('./../components/LangSelect/index.vue')['default']
     Map: typeof import('./../views/district-monitoring/components/Map.vue')['default']
+    MapV1: typeof import('./../views/district-monitoring/components/Map-v1.vue')['default']
     Navbar: typeof import('./../layout/components/Navbar/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
