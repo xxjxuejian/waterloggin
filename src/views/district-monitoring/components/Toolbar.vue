@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import zoomIn from "@/assets/images/zoomIn.png";
 import zoomOut from "@/assets/images/zoomOut.png";
 import reset from "@/assets/images/reset.png";
 import layer from "@/assets/images/layer.png";
 import measure from "@/assets/images/measure.png";
+
+import { LayerType } from "@/enums/cesuim/layer.enum.ts";
 
 import { useCesiumStore } from "@/store/modules/cesium.store.ts";
 
@@ -11,8 +13,8 @@ const cesiumStore = useCesiumStore();
 
 // 从 store 中提取属性时需要保持其响应性，需要使用 storeToRefs()，使用要加.value
 // 直接从 store 中解构 action，不需要使用storeToRefs()
-const { viewer } = storeToRefs(cesiumStore);
-const { mapOperations } = cesiumStore;
+const { viewer, currentLayerType } = storeToRefs(cesiumStore);
+const { mapOperations, switchLayer } = cesiumStore;
 
 const handleZoomIn = () => {
   if (!viewer.value) {
@@ -36,6 +38,10 @@ const handleReset = () => {
     return;
   }
   mapOperations.reset();
+};
+
+const handleSwitchLayer = (type: LayerType) => {
+  switchLayer(type);
 };
 </script>
 
@@ -82,8 +88,20 @@ const handleReset = () => {
 
         <template #content>
           <div class="">
-            <div class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80">影像图</div>
-            <div class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80">矢量图</div>
+            <div
+              class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80"
+              :class="{ 'bg-[#19a2e8]/80': currentLayerType === LayerType.IMAGE }"
+              @click="handleSwitchLayer(LayerType.IMAGE)"
+            >
+              影像图
+            </div>
+            <div
+              class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80"
+              :class="{ 'bg-[#19a2e8]/80': currentLayerType === LayerType.VECTOR }"
+              @click="handleSwitchLayer(LayerType.VECTOR)"
+            >
+              矢量图
+            </div>
           </div>
         </template>
       </el-tooltip>
