@@ -5,11 +5,13 @@ import reset from "@/assets/images/reset.png";
 import layer from "@/assets/images/layer.png";
 import measure from "@/assets/images/measure.png";
 
-import { LayerType } from "@/enums/cesuim/layer.enum.ts";
+import { LayerType } from "@/enums/index.ts";
 
 import { useCesiumStore } from "@/store/modules/cesium.store.ts";
+import { useMeasureStore } from "@/store/modules/measure.store.ts";
 
 const cesiumStore = useCesiumStore();
+const measureStore = useMeasureStore();
 
 // 从 store 中提取属性时需要保持其响应性，需要使用 storeToRefs()，使用要加.value
 // 直接从 store 中解构 action，不需要使用storeToRefs()
@@ -42,6 +44,12 @@ const handleReset = () => {
 
 const handleSwitchLayer = (type: LayerType) => {
   switchLayer(type);
+};
+
+// 测量距离
+const handleMeasureDistance = () => {
+  console.log("开始进行距离测量");
+  measureStore.startMeasure("distance");
 };
 </script>
 
@@ -115,7 +123,12 @@ const handleSwitchLayer = (type: LayerType) => {
 
         <template #content>
           <div class="">
-            <div class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80">测量距离</div>
+            <div
+              class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80"
+              @click="handleMeasureDistance"
+            >
+              测量距离
+            </div>
             <div class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80">测量面积</div>
           </div>
         </template>

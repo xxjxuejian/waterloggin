@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { pinia } from "@/store";
 import * as Cesium from "cesium";
 
-import { LayerType } from "@/enums/cesuim/layer.enum.ts";
+import { LayerType } from "@/enums/index.ts";
 
 import { useUserStoreHook } from "@/store/modules/user.store.ts";
 const userStore = useUserStoreHook();
