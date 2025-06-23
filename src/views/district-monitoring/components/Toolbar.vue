@@ -8,10 +8,12 @@ import measure from "@/assets/images/measure.png";
 import { LayerType } from "@/enums/index.ts";
 
 import { useCesiumStore } from "@/store/modules/cesium.store.ts";
-import { useMeasureStore } from "@/store/modules/measure.store.ts";
+
+import { useMeasureDistance } from "@/composables/useMeasureDistance";
 
 const cesiumStore = useCesiumStore();
-const measureStore = useMeasureStore();
+
+const { start } = useMeasureDistance();
 
 // 从 store 中提取属性时需要保持其响应性，需要使用 storeToRefs()，使用要加.value
 // 直接从 store 中解构 action，不需要使用storeToRefs()
@@ -49,7 +51,12 @@ const handleSwitchLayer = (type: LayerType) => {
 // 测量距离
 const handleMeasureDistance = () => {
   console.log("开始进行距离测量");
-  measureStore.startMeasure("distance");
+  if (!viewer.value) {
+    console.warn("Viewer is not initialized yet");
+    return;
+  }
+  start(viewer.value);
+  // measureStore.startMeasure("distance");
 };
 </script>
 
