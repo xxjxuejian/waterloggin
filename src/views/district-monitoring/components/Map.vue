@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import * as Cesium from "cesium";
 import { Ion } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import { useCesiumStore } from "@/store/modules/cesium.store.ts";

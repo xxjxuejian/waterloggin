@@ -14,9 +14,8 @@ export function useMeasureDistance() {
   let movingPosition: Cesium.Cartesian3 | null = null;
 
   // 开始测量
-  const start = (viewer: Cesium.Viewer) => {
+  const startMeasureDistance = (viewer: Cesium.Viewer) => {
     cleanup(viewer); // 清除之前的测量状态
-    // viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
     handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
@@ -102,7 +101,8 @@ export function useMeasureDistance() {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    // 添加左键双击结束
+    // 添加右键单击/左键双击  结束
+    // 左键双击的时候，是不是会触发一次左键的单击事件
     handler.setInputAction(() => {
       if (positions.length >= 2) {
         const last = positions[positions.length - 1];
@@ -119,7 +119,7 @@ export function useMeasureDistance() {
         });
       }
       stop(viewer);
-    }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
   };
 
   // 停止交互
@@ -161,7 +161,7 @@ export function useMeasureDistance() {
   };
 
   return {
-    start,
+    startMeasureDistance,
     cleanup,
     stop,
   };

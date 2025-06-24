@@ -10,10 +10,12 @@ import { LayerType } from "@/enums/index.ts";
 import { useCesiumStore } from "@/store/modules/cesium.store.ts";
 
 import { useMeasureDistance } from "@/composables/useMeasureDistance";
+import { useMeasureArea } from "@/composables/useMeasureArea";
 
 const cesiumStore = useCesiumStore();
 
-const { start } = useMeasureDistance();
+const { startMeasureDistance } = useMeasureDistance();
+const { startMeasureArea } = useMeasureArea();
 
 // 从 store 中提取属性时需要保持其响应性，需要使用 storeToRefs()，使用要加.value
 // 直接从 store 中解构 action，不需要使用storeToRefs()
@@ -55,8 +57,17 @@ const handleMeasureDistance = () => {
     console.warn("Viewer is not initialized yet");
     return;
   }
-  start(viewer.value);
-  // measureStore.startMeasure("distance");
+  startMeasureDistance(viewer.value);
+};
+
+// 测量面积
+const handleMeasureArea = () => {
+  console.log("开始进行测量面积");
+  if (!viewer.value) {
+    console.warn("Viewer is not initialized yet");
+    return;
+  }
+  startMeasureArea(viewer.value);
 };
 </script>
 
@@ -136,7 +147,12 @@ const handleMeasureDistance = () => {
             >
               测量距离
             </div>
-            <div class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80">测量面积</div>
+            <div
+              class="p-2 cursor-pointer rounded hover:bg-[#19a2e8]/80"
+              @click="handleMeasureArea"
+            >
+              测量面积
+            </div>
           </div>
         </template>
       </el-tooltip>
