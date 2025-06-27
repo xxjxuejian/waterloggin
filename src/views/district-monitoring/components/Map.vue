@@ -5,6 +5,7 @@ import { useCesiumStore } from "@/store/modules/cesium.store.ts";
 import { useMeasureStore } from "@/store/modules/measure.store.ts";
 
 import Toolbar from "./Toolbar.vue";
+import TunnelCard from "./TunnelCard.vue";
 
 const cesiumStore = useCesiumStore();
 const measureStore = useMeasureStore();
@@ -26,6 +27,8 @@ onMounted(() => {
     :class="{ 'crosshair-cursor': measureStore.isMeasuring }"
   >
     <Toolbar></Toolbar>
+
+    <TunnelCard></TunnelCard>
   </div>
 </template>
 

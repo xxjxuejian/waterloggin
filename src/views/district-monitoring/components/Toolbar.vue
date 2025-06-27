@@ -164,7 +164,7 @@ const handleMeasureArea = () => {
 .toolbar {
   position: absolute;
   top: $navbar-height;
-  left: 100px;
+  left: 500px;
   z-index: 10;
   display: flex;
   align-items: center;

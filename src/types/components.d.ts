@@ -9,6 +9,7 @@ export {};
 declare module 'vue' {
   export interface GlobalComponents {
     Breadcrumb: typeof import('./../components/Breadcrumb/index.vue')['default']
+    CardTitle: typeof import('./../components/CardTitle/index.vue')['default']
     copy: typeof import('./../views/district-monitoring/components/Map copy.vue')['default']
     ElBacktop: (typeof import("element-plus/es"))["ElBacktop"]
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -81,5 +82,6 @@ declare module 'vue' {
     SidebarMenuItemTitle: typeof import('./../layout/components/Sidebar/components/SidebarMenuItemTitle/index.vue')['default']
     SvgIcon: typeof import('./../components/SvgIcon/index.vue')['default']
     Toolbar: typeof import('./../views/district-monitoring/components/Toolbar.vue')['default']
+    TunnelCard: typeof import('./../views/district-monitoring/components/TunnelCard.vue')['default']
   }
 }
