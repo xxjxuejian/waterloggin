@@ -10,12 +10,12 @@ export function getTunnelStatusApi() {
 }
 
 // 获取指定类型的站点列表
-export function getStationListByTypeApi(data = {}) {
+export function getStationListByTypeApi(typeId = 1) {
   return request({
     url: "/station/list",
     method: "post",
     data: {
-      typeId: data.typeId,
+      typeId: typeId,
     },
   });
 }

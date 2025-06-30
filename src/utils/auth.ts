@@ -8,6 +8,7 @@ export const setToken = (token: string) => {
     token,
     timestamp: Date.now(), // 记录获取token的时间戳
   };
+
   localStorage.setItem(TOKEN_INFO_KEY, JSON.stringify(tokenInfo));
 };
 
@@ -17,6 +18,7 @@ export const getTokenInfo = (): TokenInfo | null => {
   if (!str) return null;
   try {
     const data = JSON.parse(str);
+
     return isValidTokenInfo(data) ? data : null;
   } catch (err) {
     console.error("获取tokenInfo失败:", err);

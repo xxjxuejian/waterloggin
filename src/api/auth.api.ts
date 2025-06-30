@@ -35,6 +35,15 @@ const AuthAPI = {
       method: "get",
     });
   },
+
+  // 切换租户
+  setTenant(data = {}) {
+    return request({
+      url: "/tenant/set",
+      method: "post",
+      data,
+    });
+  },
 };
 
 export default AuthAPI;

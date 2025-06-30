@@ -21,7 +21,7 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       AuthAPI.login(LoginFormData)
         .then((data: any) => {
-          console.log("login,store", data);
+          console.log("登录，后端返回数据", data);
           const { token } = data;
           setToken(token);
           resolve();
@@ -31,6 +31,8 @@ export const useUserStore = defineStore("user", () => {
         });
     });
   }
+
+  //
 
   //   获取用户信息
   function getUserInfo() {
