@@ -2,8 +2,6 @@
 import type { FormInstance } from "element-plus";
 import type { LoginFormData } from "@/api/auth.api.ts";
 
-import AuthAPI from "@/api/auth.api.ts";
-
 import { useUserStoreHook } from "@/store/modules/user.store.ts";
 import router from "@/router";
 // import { usePermissionStoreHook } from "@/store/modules/permission.store.ts";
@@ -53,7 +51,7 @@ const handleLoginSubmit = async () => {
     await userStore.login(loginForm.value);
 
     // 租户需要设置一下
-    await AuthAPI.setTenant({ tenantId: 1 });
+    await userStore.setTenant(1);
 
     ElMessage.success("登录成功");
     router.push("/");

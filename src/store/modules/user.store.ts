@@ -32,7 +32,19 @@ export const useUserStore = defineStore("user", () => {
     });
   }
 
-  //
+  //设置租户
+  function setTenant(tenantId: number = 1) {
+    return new Promise<void>((resolve, reject) => {
+      AuthAPI.setTenant(tenantId)
+        .then((res: any) => {
+          console.log("设置租户成功", res);
+          resolve();
+        })
+        .catch((err: any) => {
+          reject(err);
+        });
+    });
+  }
 
   //   获取用户信息
   function getUserInfo() {
@@ -88,6 +100,7 @@ export const useUserStore = defineStore("user", () => {
     login,
     logout,
     userInfo,
+    setTenant,
     getUserInfo,
     getRoutes,
     initCenter,

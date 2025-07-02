@@ -37,11 +37,13 @@ const AuthAPI = {
   },
 
   // 切换租户
-  setTenant(data = {}) {
+  setTenant(tenantId: number) {
     return request({
       url: "/tenant/set",
       method: "post",
-      data,
+      data: {
+        tenantId,
+      },
     });
   },
 };
