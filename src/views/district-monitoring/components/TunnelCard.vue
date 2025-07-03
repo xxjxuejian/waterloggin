@@ -5,6 +5,14 @@ import {
   getStationListByTypeApi,
 } from "@/api/bigScreen/monitoringWarning/monitoringTunnel.ts";
 
+import { useCesiumStore } from "@/store/modules/cesium.store.ts";
+import { useCesiumEntities } from "@/composables/useCesiumEntities";
+
+const cesiumStore = useCesiumStore();
+const { addIconEntities } = useCesiumEntities();
+
+const { viewer } = storeToRefs(cesiumStore);
+
 function getTunnelStatus() {
   getTunnelStatusApi().then((res: any) => {
     console.log("告警统计", res);
@@ -22,8 +30,11 @@ const tunnelList = ref([]);
 // typeId: 1: 获取所有积水点。 2: 获取所有下沉地道/隧道列表   3: 获取所有 气象监测站
 function getStationList(typeId = 2) {
   getStationListByTypeApi(typeId).then((res: any) => {
-    console.log("下沉隧道列表", res);
-    tunnelList.value = res;
+    // console.log("下沉隧道列表", res);
+    tunnelList.value = res.data;
+    // tunnelList.value = res.data.slice(0, 5);
+    console.log("下沉隧道列表", tunnelList.value);
+    addIconEntities(viewer.value, tunnelList.value);
   });
 }
 getStationList();
