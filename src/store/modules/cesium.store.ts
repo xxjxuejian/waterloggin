@@ -18,6 +18,8 @@ const CONFIG = {
     animation: false,
     timeline: false,
     fullscreenButton: false,
+    infoBox: false, // 禁用默认弹窗
+    selectionIndicator: false, // 禁用蓝色聚焦框
   },
   cameraOptions: {
     minimumZoomDistance: 100,
