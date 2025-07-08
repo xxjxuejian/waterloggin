@@ -9,7 +9,7 @@ import { useCesiumStore } from "@/store/modules/cesium.store.ts";
 import { useCesiumEntities } from "@/composables/useCesiumEntities";
 
 const cesiumStore = useCesiumStore();
-const { addIconEntities } = useCesiumEntities();
+const { addTunnelEntities, showTunnelByStatus, showAllTunnel } = useCesiumEntities();
 
 const { viewer } = storeToRefs(cesiumStore);
 
@@ -17,6 +17,12 @@ function getTunnelStatus() {
   getTunnelStatusApi().then((res: any) => {
     console.log("告警统计", res);
     const data = res.data;
+
+    data["limitAlarm"] = 2;
+    data["waterLevelWarn"] = 3;
+    data["reportAlarm"] = 5;
+    data["normal"] = 10;
+
     Object.keys(data).forEach((key) => {
       tunnels.value[key].count = data[key];
     });
@@ -25,21 +31,41 @@ function getTunnelStatus() {
 getTunnelStatus();
 
 // 所有的隧道列表
+// statusSec 站点状态 下沉地道对应 1超限预警 2半小时预警 3一小时预警 0正常
 const tunnelList = ref([]);
+// 四种类型
+
 // const warning
 // typeId: 1: 获取所有积水点。 2: 获取所有下沉地道/隧道列表   3: 获取所有 气象监测站
 function getStationList(typeId = 2) {
   getStationListByTypeApi(typeId).then((res: any) => {
     // console.log("下沉隧道列表", res);
     tunnelList.value = res.data;
-    // tunnelList.value = res.data.slice(0, 5);
+    // 超限：2个； 半小时：3个， 一小时：5个； 正常： 10个
+    mockData(tunnelList.value);
     console.log("下沉隧道列表", tunnelList.value);
-    addIconEntities(viewer.value, tunnelList.value);
+    addTunnelEntities(viewer.value, tunnelList.value);
   });
 }
-getStationList();
+getStationList(2);
 
-/* 
+// 模拟隧道数据
+function mockData(data: Array<any>) {
+  // 超限预警
+  for (let i = 0; i < 2; i++) {
+    data[i].statusSec = 1;
+  }
+  // 半小时预警
+  for (let i = 2; i < 5; i++) {
+    data[i].statusSec = 2;
+  }
+  // 一小时预警
+  for (let i = 5; i < 10; i++) {
+    data[i].statusSec = 3;
+  }
+}
+
+/*
   1. 获取到所有的隧道站点数据，
   2. 过滤获取上面这些数据中的预警站点
 
@@ -84,6 +110,7 @@ const tunnels = ref<any>({
 const activeCard = ref<string>("");
 const activeColor = ref<string>("#fff");
 
+// 点击不同的告警卡片
 const handleCardClick = (key: string) => {
   const clickCard = tunnels.value[key];
   console.log("点击的card", clickCard);
@@ -92,14 +119,17 @@ const handleCardClick = (key: string) => {
     activeCard.value = "";
     activeColor.value = "#fff";
     //显示所有站点
+    showAllTunnel(viewer.value);
     return;
   }
   // 设置activeCard的值
   activeCard.value = key;
   // 设置activeCard的激活时颜色
-  activeColor.value = tunnels.value[key].clickColor;
+  activeColor.value = clickCard.clickColor;
   // 显示与card状态一致的下沉隧道
   // 添加地图标记物
+  const statusSec = clickCard.statusCode;
+  showTunnelByStatus(viewer.value, statusSec);
 };
 </script>
 

@@ -12,6 +12,7 @@ export const useUserStore = defineStore("user", () => {
   const userInfo = useStorage<UserInfo>("userInfo", {} as UserInfo);
 
   // 初始化租户中心经纬度
+  // 经度【longitude】、纬度【 Latitude】
   const initCenter = ref({
     lon: 120.3,
     lat: 30.43,
