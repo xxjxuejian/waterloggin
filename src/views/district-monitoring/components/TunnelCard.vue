@@ -9,7 +9,8 @@ import { useCesiumStore } from "@/store/modules/cesium.store.ts";
 import { useCesiumEntities } from "@/composables/useCesiumEntities";
 
 const cesiumStore = useCesiumStore();
-const { addTunnelEntities, showTunnelByStatus, showAllTunnel } = useCesiumEntities();
+const { addTunnelEntities, showTunnelByStatus, showAllTunnel, setupTunnelEntityEvents } =
+  useCesiumEntities();
 
 const { viewer } = storeToRefs(cesiumStore);
 
@@ -45,6 +46,12 @@ function getStationList(typeId = 2) {
     mockData(tunnelList.value);
     console.log("下沉隧道列表", tunnelList.value);
     addTunnelEntities(viewer.value, tunnelList.value);
+
+    // 隧道站点的交互事件
+    setupTunnelEntityEvents(viewer.value, (entity) => {
+      console.log("点击了实体：", entity.name);
+      // 你也可以在这里触发弹窗、选中状态等逻辑
+    });
   });
 }
 getStationList(2);

@@ -19,7 +19,8 @@ export function useCesiumEntities() {
     if (!viewer || !Array.isArray(data)) return;
     data.forEach((item) => {
       const { lon, lat, name } = item;
-      if (!lon || !lat) return;
+      // if (!lon || !lat) return; // 值是 0 会被误判为
+      if (lon === undefined || lat === undefined || lon === null || lat === null) return;
 
       //   地图上添加的坐标都是三位笛卡尔坐标系
       const position = Cesium.Cartesian3.fromDegrees(parseFloat(lon), parseFloat(lat));
@@ -48,17 +49,12 @@ export function useCesiumEntities() {
         // 存储自定义的键值对
         properties: {
           statusSec: item.statusSec, // 添加类型，用于筛选
+          type: "tunnel", // 实体类型，表示这个实体是tunnel站点
         },
       });
       tunnelEntities.push(entity);
     });
-    viewer.flyTo(tunnelEntities, {
-      duration: 3, // 飞行时长（秒）
-      offset: new Cesium.HeadingPitchRange(
-        0.0, // 0度，朝向正北
-        -Cesium.Math.PI_OVER_TWO // -90度，俯视角
-      ),
-    });
+    flyToEntities(viewer, tunnelEntities);
   }
 
   // 显示全部tunnel
@@ -67,40 +63,58 @@ export function useCesiumEntities() {
     tunnelEntities.forEach((entity) => {
       entity.show = true;
     });
-    viewer.flyTo(tunnelEntities, {
-      duration: 3, // 飞行时长（秒）
-      offset: new Cesium.HeadingPitchRange(
-        0.0, // 0度，朝向正北
-        -Cesium.Math.PI_OVER_TWO // -90度，俯视角
-      ),
-    });
+    flyToEntities(viewer, tunnelEntities);
   }
 
   // 根据添加显示指定status的tunnel
   function showTunnelByStatus(viewer: Cesium.Viewer, statusSec: number) {
     if (tunnelEntities.length === 0) return;
+    // 全部隐藏
     tunnelEntities.forEach((entity) => {
       entity.show = false;
     });
+    // 获取指定status的tunnel
     const entities = tunnelEntities.filter((entity) => {
       if (entity.properties?.statusSec !== undefined) {
         return entity.properties.statusSec.getValue() === statusSec;
       }
       return false;
     });
+    // 显示
     entities.forEach((entity) => {
       entity.show = true;
     });
+    flyToEntities(viewer, entities);
+  }
 
-    console.log("符合条件的实体", entities);
+  // 鼠标移入billboard 时的交互
+  function setupTunnelEntityEvents(
+    viewer: Cesium.Viewer,
+    onClick?: (entity: Cesium.Entity) => void
+  ) {
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
 
-    viewer.flyTo(entities, {
-      duration: 3, // 飞行时长（秒）
-      offset: new Cesium.HeadingPitchRange(
-        0.0, // 0度，朝向正北
-        -Cesium.Math.PI_OVER_TWO // -90度，俯视角
-      ),
-    });
+    // 鼠标移动到隧道图标上变成pointer样式
+    handler.setInputAction((movement) => {
+      const pickedObject = viewer.scene.pick(movement.endPosition);
+      // pickedObject?.id是通过 viewer.entities.add(...) 添加的那个 Entity 实例。
+      // console.log("pickedObject", pickedObject);
+      // console.log("pickedObject.id", pickedObject?.id);
+      // console.log("tunnelEntities.includes", tunnelEntities.includes(pickedObject?.id));
+
+      // 判断鼠标移入的位置是否时tunnel站点实体
+      const isTunnel = pickedObject?.id?.properties?.type?.getValue?.() === "tunnel";
+      viewer.canvas.style.cursor = isTunnel ? "pointer" : "default";
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+    // 点击事件
+    handler.setInputAction((click) => {
+      const pickedObject = viewer.scene.pick(click.position);
+      const entity = pickedObject?.id;
+      if (entity?.properties?.type?.getValue?.() === "tunnel") {
+        onClick?.(entity); // 回调触发逻辑
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   }
 
   return {
@@ -108,5 +122,15 @@ export function useCesiumEntities() {
     tunnelEntities,
     showTunnelByStatus,
     showAllTunnel,
+    setupTunnelEntityEvents,
   };
+}
+
+// 抽离重复的飞行逻辑
+function flyToEntities(viewer: Cesium.Viewer, entities: Cesium.Entity[]) {
+  if (!entities.length) return;
+  viewer.flyTo(entities, {
+    duration: 3,
+    offset: new Cesium.HeadingPitchRange(0.0, -Cesium.Math.PI_OVER_TWO),
+  });
 }
