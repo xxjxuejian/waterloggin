@@ -158,6 +158,9 @@ const handleCardClick = (key: string) => {
         <img :src="value.src" alt="" class="w-full h-full" />
       </div>
     </div>
+
+    <!-- 鼠标移入站点时的名称弹窗 -->
+    <div id="tunnel-name" style="display: none"></div>
   </div>
 </template>
 
@@ -203,5 +206,18 @@ const handleCardClick = (key: string) => {
       transform: translateX(-50%);
     }
   }
+}
+// 鼠标移入站点时的名称弹窗
+#tunnel-name {
+  position: fixed;
+  z-index: 999;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #fff;
+  white-space: nowrap;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  transform: translate(-50%, -100%);
 }
 </style>

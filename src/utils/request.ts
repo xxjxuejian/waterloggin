@@ -20,6 +20,8 @@ instance.interceptors.request.use(
     // 请求拦截器中 判断是否存在token,并添加到请求头 Authorization 中
     // 逻辑代码,获取token，检查是否过期
     const token = getToken();
+
+    // 这里不考虑token是否过期，在响应拦截器中处理
     const isExpire = isTokenExpired();
 
     // 能获取到token的情况

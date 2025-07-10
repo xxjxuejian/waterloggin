@@ -93,18 +93,68 @@ export function useCesiumEntities() {
     onClick?: (entity: Cesium.Entity) => void
   ) {
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+    // 记录上一次移入/点击的entity
+    let lastHighlighted: Cesium.Entity | null = null;
+
+    // 站点名称弹窗
+    const tunnelNameEl = document.getElementById("tunnel-name");
 
     // 鼠标移动到隧道图标上变成pointer样式
     handler.setInputAction((movement) => {
       const pickedObject = viewer.scene.pick(movement.endPosition);
+      const activeEntity = pickedObject?.id;
+
       // pickedObject?.id是通过 viewer.entities.add(...) 添加的那个 Entity 实例。
       // console.log("pickedObject", pickedObject);
       // console.log("pickedObject.id", pickedObject?.id);
       // console.log("tunnelEntities.includes", tunnelEntities.includes(pickedObject?.id));
 
+      // 针对: 从一个 tunnel billboard 移到另一个 tunnel billboard。 先还原上一次高亮,
+      if (lastHighlighted && lastHighlighted !== activeEntity) {
+        lastHighlighted.billboard.scale = 1.0;
+        lastHighlighted = null;
+      }
+
       // 判断鼠标移入的位置是否时tunnel站点实体
-      const isTunnel = pickedObject?.id?.properties?.type?.getValue?.() === "tunnel";
-      viewer.canvas.style.cursor = isTunnel ? "pointer" : "default";
+      const isTunnel = activeEntity?.properties?.type?.getValue?.() === "tunnel";
+      if (activeEntity && isTunnel) {
+        // 避免在同一个实体上重复执行代码
+        if (activeEntity === lastHighlighted) return;
+        viewer.canvas.style.cursor = "pointer";
+        activeEntity.billboard.scale = 1.2;
+        lastHighlighted = activeEntity;
+        // console.log("active", lastHighlighted);
+
+        // 弹框显示名称
+        if (tunnelNameEl) {
+          tunnelNameEl.innerText = activeEntity.name ?? "未命名";
+
+          // 世界坐标转屏幕坐标
+          const windowPosition = Cesium.SceneTransforms.worldToWindowCoordinates(
+            viewer.scene,
+            activeEntity.position.getValue(viewer.clock.currentTime)
+          );
+
+          if (windowPosition) {
+            tunnelNameEl.style.left = `${windowPosition.x}px`;
+            tunnelNameEl.style.top = `${windowPosition.y + 50}px`;
+            tunnelNameEl.style.display = "block";
+          }
+          // console.log("弹窗", tunnelNameEl, tunnelNameEl.innerText, windowPosition);
+        }
+      }
+      // 鼠标不在tunnel站点时
+      else {
+        viewer.canvas.style.cursor = "default";
+        if (lastHighlighted) {
+          lastHighlighted.billboard.scale = 1.0;
+          lastHighlighted = null;
+        }
+        // 隐藏弹窗
+        if (tunnelNameEl) {
+          tunnelNameEl.style.display = "none";
+        }
+      }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
     // 点击事件
