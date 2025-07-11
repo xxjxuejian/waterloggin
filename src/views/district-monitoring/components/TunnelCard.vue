@@ -167,7 +167,10 @@ const tunnelWarnDia = ref({
     <div id="tunnel-name" style="display: none"></div>
 
     <!-- 点击隧道站点图标时的对话框 -->
-    <TunnelWarnDialog v-model:visible="tunnelWarnDia.visible"></TunnelWarnDialog>
+    <TunnelWarnDialog
+      v-if="tunnelWarnDia.visible"
+      v-model:visible="tunnelWarnDia.visible"
+    ></TunnelWarnDialog>
   </div>
 </template>
 
