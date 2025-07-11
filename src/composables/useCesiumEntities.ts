@@ -88,10 +88,7 @@ export function useCesiumEntities() {
   }
 
   // 鼠标移入billboard 时的交互
-  function setupTunnelEntityEvents(
-    viewer: Cesium.Viewer,
-    onClick?: (entity: Cesium.Entity) => void
-  ) {
+  function setupTunnelEntityEvents(viewer: Cesium.Viewer, dialogRef) {
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
     // 记录上一次移入/点击的entity
     let lastHighlighted: Cesium.Entity | null = null;
@@ -161,8 +158,9 @@ export function useCesiumEntities() {
     handler.setInputAction((click) => {
       const pickedObject = viewer.scene.pick(click.position);
       const entity = pickedObject?.id;
-      if (entity?.properties?.type?.getValue?.() === "tunnel") {
-        onClick?.(entity); // 回调触发逻辑
+      const isTunnel = entity?.properties?.type?.getValue?.() === "tunnel";
+      if (entity && isTunnel) {
+        dialogRef.value.visible = true;
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   }

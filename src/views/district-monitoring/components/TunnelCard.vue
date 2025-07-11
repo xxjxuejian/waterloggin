@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import CardTitle from "@/components/CardTitle/index.vue";
+import TunnelWarnDialog from "./TunnelWarnDialog.vue";
+
 import {
   getTunnelStatusApi,
   getStationListByTypeApi,
@@ -48,10 +50,7 @@ function getStationList(typeId = 2) {
     addTunnelEntities(viewer.value, tunnelList.value);
 
     // 隧道站点的交互事件
-    setupTunnelEntityEvents(viewer.value, (entity) => {
-      console.log("点击了实体：", entity.name);
-      // 你也可以在这里触发弹窗、选中状态等逻辑
-    });
+    setupTunnelEntityEvents(viewer.value, tunnelWarnDia);
   });
 }
 getStationList(2);
@@ -138,6 +137,11 @@ const handleCardClick = (key: string) => {
   const statusSec = clickCard.statusCode;
   showTunnelByStatus(viewer.value, statusSec);
 };
+
+// 点击隧道站点图标时显示的对话框
+const tunnelWarnDia = ref({
+  visible: false,
+});
 </script>
 
 <template>
@@ -161,6 +165,9 @@ const handleCardClick = (key: string) => {
 
     <!-- 鼠标移入站点时的名称弹窗 -->
     <div id="tunnel-name" style="display: none"></div>
+
+    <!-- 点击隧道站点图标时的对话框 -->
+    <TunnelWarnDialog v-model:visible="tunnelWarnDia.visible"></TunnelWarnDialog>
   </div>
 </template>
 
